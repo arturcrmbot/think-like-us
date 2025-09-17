@@ -1,0 +1,21 @@
+{
+  "name": "Single Customer Retention",
+  "description": "High-value customer showing churn risk - quick decision needed",
+  "initial_prompt": "URGENT: Premium customer ACC_7829 (£195/mo, 48 months tenure) showing 89% churn probability.\n\nRecent issues:\n- 3 support tickets in last month\n- Usage dropped 40% \n- Contract expires in 60 days\n- CLV: £9,360 (4 years remaining)\n\nResources available:\n- £500 budget\n- 1 executive slot today\n- 1 priority fix available\n\nDetermine best retention approach.\n\nRespond with ACTION_PLAN_READY when decision made.",
+  
+  "resources": {
+    "budget": 500,
+    "executive_slots": 1,
+    "priority_fixes": 1
+  },
+  
+  "intervention_success_rates": {
+    "executive_call": 0.75,
+    "priority_fix": 0.65,
+    "discount_offer": 0.45,
+    "combination": 0.85
+  },
+  
+  "completion_trigger": "ACTION_PLAN_READY",
+  "max_messages": 8
+}

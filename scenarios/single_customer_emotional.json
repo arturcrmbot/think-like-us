@@ -1,0 +1,27 @@
+{
+  "name": "Emotional Customer Scenario",
+  "description": "Frustrated customer with emotional concerns - requires careful handling",
+  "initial_prompt": "CUSTOMER ESCALATION: ACC_5567 (Basic £52/mo, 24 months tenure)\n\nSituation:\n- Extremely frustrated after service outage\n- Posted negative review online\n- Demanding immediate resolution\n- Threatens to switch to competitor\n- CLV: £1,248 (2 years remaining)\n\nEmotional factors:\n- Feels ignored by previous support\n- Values personal attention\n- Price-sensitive but values service quality\n\nResources:\n- £200 budget\n- Manager available for personal call\n- Technical fix possible\n\nHandle with empathy and effectiveness.\n\nRespond with ACTION_PLAN_READY when approach decided.",
+  
+  "resources": {
+    "budget": 200,
+    "manager_time": 1,
+    "technical_fixes": 1
+  },
+  
+  "emotional_factors": {
+    "frustration_level": "high",
+    "price_sensitivity": "medium",
+    "service_expectations": "high"
+  },
+  
+  "intervention_success_rates": {
+    "manager_call": 0.60,
+    "technical_fix": 0.40,
+    "discount_gesture": 0.35,
+    "combined_approach": 0.75
+  },
+  
+  "completion_trigger": "ACTION_PLAN_READY",
+  "max_messages": 8
+}

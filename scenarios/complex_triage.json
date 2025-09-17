@@ -1,0 +1,37 @@
+{
+  "name": "Q4 Monday Morning Crisis",
+  "description": "Five accounts at high churn risk. Pattern suggests something systemic.",
+  "initial_prompt": "Emergency retention meeting. Five accounts showing high churn risk:\n\n- ACC_7829: Premium $195/mo, 89% churn probability\n- ACC_3401: Standard $78/mo, 86% churn probability  \n- ACC_9102: Premium $156/mo, 91% churn probability\n- ACC_5567: Basic $52/mo, 77% churn probability\n- ACC_8834: Family $187/mo, 83% churn probability\n\nUnusual: All flagged for churn on same day, different tiers.\n\nResources: $800 budget, 1 exec slot, 1 manager, 2 priority fixes\n\nInvestigate why they're all at risk, then decide retention strategy.\n\nRespond with ACTION_PLAN_READY when plan finalized.",
+  
+  "resources": {
+    "budget": 800,
+    "executive_slots": 1,
+    "managers": 1,
+    "priority_fixes": 2
+  },
+  
+  "constraints": {
+    "max_budget_per_account": 400,
+    "exec_can_only_handle": "one account",
+    "manager_bandwidth": "two accounts max",
+    "fixes_available_today": "only 2"
+  },
+  
+  "hidden_context": {
+    "note": "Agents must discover through discussion:",
+    "real_issue": "Major service outage 3 weeks ago affected all premium areas",
+    "connections": "Some accounts know each other",
+    "cascade_risk": "Losing one could trigger others"
+  },
+  
+  "intervention_success_rates": {
+    "technical_fix_plus_exec": 0.72,
+    "manager_plus_discount": 0.45,
+    "discount_only": 0.22,
+    "fix_only": 0.38,
+    "do_nothing": 0.08
+  },
+  
+  "completion_trigger": "ACTION_PLAN_READY",
+  "max_messages": 10
+}

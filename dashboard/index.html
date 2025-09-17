@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Team Retention Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Multi-Team Retention Dashboard</h1>
+            <p class="subtitle">Comparing Decision-Making Approaches for Customer Retention</p>
+            <div class="status-indicator">
+                <span id="api-status" class="status-dot offline"></span>
+                <span id="api-status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Collapsible Controls -->
+        <div class="control-panel-wrapper">
+            <div class="control-panel-header" onclick="toggleControls()">
+                <h3>Simulation Controls</h3>
+                <span id="controls-toggle">▲ Collapse</span>
+            </div>
+            <div id="control-panel" class="control-panel-content">
+                <!-- Core Controls -->
+                <div class="core-controls">
+                    <div class="control-group">
+                        <label>Customers at Risk</label>
+                        <input type="range" id="customers-slider" min="50" max="500" value="100" class="slider">
+                        <span id="customers-value" class="value">100</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Weekly Budget</label>
+                        <input type="range" id="budget-slider" min="30" max="50" value="40" step="5" class="slider">
+                        <span id="budget-value" class="value">£40k</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Discount Success</label>
+                        <input type="range" id="discount-slider" min="20" max="60" value="40" class="slider">
+                        <span id="discount-value" class="value">40%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Tech Fix Success</label>
+                        <input type="range" id="priority-slider" min="50" max="90" value="70" class="slider">
+                        <span id="priority-value" class="value">70%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Executive Success</label>
+                        <input type="range" id="executive-slider" min="70" max="90" value="85" class="slider">
+                        <span id="executive-value" class="value">85%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Discount Duration</label>
+                        <input type="range" id="discount-duration-slider" min="3" max="12" value="6" class="slider">
+                        <span id="discount-duration-value" class="value">6 months</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Priority Fix Cost</label>
+                        <input type="range" id="priority-cost-slider" min="150" max="800" value="300" class="slider">
+                        <span id="priority-cost-value" class="value">£300</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Executive Cost</label>
+                        <input type="range" id="executive-cost-slider" min="300" max="1500" value="600" class="slider">
+                        <span id="executive-cost-value" class="value">£600</span>
+                    </div>
+                </div>
+
+                <!-- Advanced Controls -->
+                <div class="advanced-controls">
+                    <h4 style="margin: 20px 0 15px 0; color: #2c3e50; border-bottom: 1px solid #dee2e6; padding-bottom: 8px;">Customer Distribution</h4>
+                    <div class="core-controls">
+                        <div class="control-group">
+                            <label>Basic %</label>
+                            <input type="range" id="basic-percent-slider" min="70" max="90" value="80" class="slider">
+                            <span id="basic-percent-value" class="value">80%</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Standard %</label>
+                            <input type="range" id="standard-percent-slider" min="10" max="25" value="15" class="slider">
+                            <span id="standard-percent-value" class="value">15%</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Premium %</label>
+                            <input type="range" id="premium-percent-slider" min="2" max="8" value="4" class="slider">
+                            <span id="premium-percent-value" class="value">4%</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Enterprise %</label>
+                            <input type="range" id="enterprise-percent-slider" min="0.5" max="3" value="1" step="0.5" class="slider">
+                            <span id="enterprise-percent-value" class="value">1%</span>
+                        </div>
+                    </div>
+
+                    <h4 style="margin: 20px 0 15px 0; color: #2c3e50; border-bottom: 1px solid #dee2e6; padding-bottom: 8px;">Monthly Revenue per Tier</h4>
+                    <div class="core-controls">
+                        <div class="control-group">
+                            <label>Basic Revenue</label>
+                            <input type="range" id="basic-revenue-slider" min="20" max="60" value="35" class="slider">
+                            <span id="basic-revenue-value" class="value">£35</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Standard Revenue</label>
+                            <input type="range" id="standard-revenue-slider" min="40" max="100" value="65" class="slider">
+                            <span id="standard-revenue-value" class="value">£65</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Premium Revenue</label>
+                            <input type="range" id="premium-revenue-slider" min="80" max="200" value="120" class="slider">
+                            <span id="premium-revenue-value" class="value">£120</span>
+                        </div>
+                        <div class="control-group">
+                            <label>Enterprise Revenue</label>
+                            <input type="range" id="enterprise-revenue-slider" min="150" max="400" value="250" class="slider">
+                            <span id="enterprise-revenue-value" class="value">£250</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Controls -->
+                <div class="simulation-controls">
+                    <button id="start-btn" class="btn primary">Start Simulation</button>
+                    <button id="next-btn" class="btn secondary" disabled>Next Week</button>
+                    <button id="autorun-btn" class="btn autorun">Auto-Evaluate 5 Weeks</button>
+                    <button id="session-history-btn" class="btn secondary">View Session History</button>
+                    <button id="reset-btn" class="btn danger">Reset</button>
+                    
+                    <div class="week-display">
+                        <span>Week <span id="current-week">0</span> / 52</span>
+                        <div class="progress-bar">
+                            <div id="week-progress" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Running Totals Section -->
+        <div class="running-totals-section">
+            <h2>Running Totals - Week <span id="display-week">0</span></h2>
+            <div id="team-totals-grid" class="team-grid">
+                <!-- Dynamic team totals will be populated here -->
+            </div>
+        </div>
+
+        <!-- Weekly Results History Section -->
+        <div id="weekly-history-section" class="weekly-history-section hidden">
+            <h2>Weekly Results History</h2>
+            <div id="weekly-history-grid" class="weekly-grid">
+                <!-- Individual week results will be populated here -->
+            </div>
+        </div>
+
+        <!-- Auto-Evaluate Section (Hidden by default) -->
+        <div id="autorun-section" class="autorun-section hidden">
+            <h2>Auto-Evaluate Simulation Progress</h2>
+            <div class="autorun-status">
+                <div class="autorun-progress">
+                    <div class="progress-header">
+                        <span id="autorun-session-name">5-Week Simulation</span>
+                    </div>
+                    <div class="autorun-progress-bar">
+                        <div id="autorun-progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-details">
+                        Week <span id="autorun-current-week">0</span> / <span id="autorun-total-weeks">5</span>
+                    </div>
+                </div>
+                
+                <div class="autorun-controls">
+                    <button id="autorun-cancel-btn" class="btn danger">Cancel</button>
+                    <button id="autorun-view-results-btn" class="btn primary hidden">View Results</button>
+                </div>
+            </div>
+            
+            <!-- Running Totals for AutoRun -->
+            <div id="autorun-totals-section" class="autorun-totals-section hidden">
+                <h3>Running Totals - All Weeks</h3>
+                <div id="autorun-totals-grid" class="totals-grid">
+                    <!-- Running totals table will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Game Master Overall Analysis -->
+            <div id="autorun-overall-analysis" class="autorun-overall-analysis hidden">
+                <h3>Game Master Overall Analysis</h3>
+                <div id="overall-analysis-content" class="overall-analysis-content">
+                    <!-- Overall analysis will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Game Master Commentary -->
+            <div class="game-master-section">
+                <h3>Game Master Analysis</h3>
+                <div id="game-master-parameters" class="game-master-panel">
+                    <h4>Current Week Parameters</h4>
+                    <div id="current-parameters-content">
+                        <p class="placeholder">Waiting for Game Master to set parameters...</p>
+                    </div>
+                </div>
+                
+                <div id="game-master-evaluation" class="game-master-panel">
+                    <h4>Team Performance Evaluation</h4>
+                    <div id="evaluation-content">
+                        <p class="placeholder">Team evaluation will appear after each week...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Real-time Results -->
+            <div id="autorun-results" class="autorun-results">
+                <h3>Weekly Results</h3>
+                <div id="autorun-weekly-grid" class="weekly-grid">
+                    <!-- Weekly results will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Analysis Section -->
+        <div class="team-analysis-section">
+            <h2>Team Decision Processes</h2>
+            <div id="team-analysis-grid" class="team-grid">
+                <!-- Dynamic team analysis panels will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Running multi-team simulation...</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Error</h3>
+            <p id="error-message">An error occurred</p>
+            <button id="error-close" class="btn primary">Close</button>
+        </div>
+    </div>
+
+    <script src="app.js?v=2025091225"></script>
+    <script>
+        function toggleControls() {
+            const panel = document.getElementById('control-panel');
+            const toggle = document.getElementById('controls-toggle');
+            
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                toggle.textContent = '▲ Collapse';
+            } else {
+                panel.style.display = 'none';
+                toggle.textContent = '▼ Expand Controls';
+            }
+        }
+    </script>
+
+    <!-- Session History Modal -->
+    <div id="session-history-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 1200px; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>AutoRun Session History</h2>
+                <button onclick="closeSessionHistoryModal()" class="btn danger" style="padding: 5px 10px;">✕</button>
+            </div>
+            <div id="session-list">
+                <div style="text-align: center; padding: 40px; color: #6c757d;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading sessions...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Summary Modal -->
+    <div id="session-summary-modal" class="modal hidden" style="overflow-y: auto;">
+        <div class="modal-content" style="max-width: 95vw; padding: 30px; margin: 20px auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 id="summary-modal-title">Session Summary</h2>
+                <button onclick="closeSessionSummaryModal()" class="btn danger" style="padding: 5px 10px;">✕</button>
+            </div>
+            <div id="session-summary-content">
+                <div style="text-align: center; padding: 40px; color: #6c757d;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading summary...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
