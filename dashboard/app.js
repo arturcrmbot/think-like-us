@@ -562,7 +562,7 @@ class MultiTeamDashboard {
             { label: 'Total Customers', key: 'customers', formatter: (totals) => totals.customers },
             { label: 'Total CLV', key: 'clv', formatter: (totals) => this.formatCurrency(totals.clv) },
             { label: 'Total Spent', key: 'budget', formatter: (totals) => this.formatCurrency(totals.budget) },
-            { label: 'Average ROI', key: 'roi', formatter: (totals) => {
+            { label: 'Overall ROI', key: 'roi', formatter: (totals) => {
                 const roi = totals.budget > 0 ? totals.clv / totals.budget : 0;
                 return `${roi.toFixed(1)}x`;
             }}
@@ -607,7 +607,7 @@ class MultiTeamDashboard {
                     <div class="metric-value">${this.formatCurrency(totals.budget)}</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-label">Average ROI</div>
+                    <div class="metric-label">Overall ROI</div>
                     <div class="metric-value roi">${roi.toFixed(1)}x</div>
                 </div>
             </div>
@@ -1283,7 +1283,7 @@ class MultiTeamDashboard {
                         ${Object.keys(teamTotals).map(teamName => `<td class="metric-value">${this.formatCurrency(teamTotals[teamName].budget)}</td>`).join('')}
                     </tr>
                     <tr>
-                        <td class="metric-label">Average ROI</td>
+                        <td class="metric-label">Overall ROI</td>
                         ${Object.keys(teamTotals).map(teamName => {
                             const totals = teamTotals[teamName];
                             const roi = totals.budget > 0 ? totals.clv / totals.budget : 0;
@@ -1652,7 +1652,7 @@ class MultiTeamDashboard {
                             <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${data.cumulative_performance.corporate.total_customers_saved}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #ddd; padding: 8px; background: #f8f9fa; font-weight: bold;">Average ROI</td>
+                            <td style="border: 1px solid #ddd; padding: 8px; background: #f8f9fa; font-weight: bold;">Overall ROI</td>
                             <td style="border: 1px solid #ddd; padding: 8px; text-align: center; font-weight: bold;">${data.cumulative_performance.rule_based.average_roi.toFixed(2)}x</td>
                             <td style="border: 1px solid #ddd; padding: 8px; text-align: center; font-weight: bold;">${data.cumulative_performance.cognitive.average_roi.toFixed(2)}x</td>
                             <td style="border: 1px solid #ddd; padding: 8px; text-align: center; font-weight: bold;">${data.cumulative_performance.corporate.average_roi.toFixed(2)}x</td>

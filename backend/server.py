@@ -1041,13 +1041,19 @@ async def get_session_visual_summary(session_id: str):
                     cumulative_performance[team_name]["total_budget_spent"] += team_data["budget_spent"]
                     cumulative_performance[team_name]["total_customers_saved"] += team_data["customers_saved"]
         
-        # Calculate averages
+        # Calculate averages and overall ROI
         for team_name in cumulative_performance.keys():
-            roi_values = [week["teams"][team_name]["roi"] for week in weekly_totals if team_name in week["teams"]]
+            # Calculate overall ROI correctly (total CLV / total budget)
+            if cumulative_performance[team_name]["total_budget_spent"] > 0:
+                cumulative_performance[team_name]["average_roi"] = (
+                    cumulative_performance[team_name]["total_clv_protected"] /
+                    cumulative_performance[team_name]["total_budget_spent"]
+                )
+            else:
+                cumulative_performance[team_name]["average_roi"] = 0
+
+            # Calculate average score
             score_values = [week["teams"][team_name]["game_master_score"] for week in weekly_totals if team_name in week["teams"]]
-            
-            if roi_values:
-                cumulative_performance[team_name]["average_roi"] = sum(roi_values) / len(roi_values)
             if score_values:
                 cumulative_performance[team_name]["average_score"] = sum(score_values) / len(score_values)
         
